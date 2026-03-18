@@ -1,6 +1,6 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: "AIzaSyA_olhDzdtlSyCJ_Ebd0_JEbsQ82c1fI6M" });
+const ai = new GoogleGenAI({ apiKey: "AIzaSyBIapH-YpJiCCMUovtNcrWblFiFrrVoy5U"});
 
 export async function getChatResponse(message: string, history: { role: "user" | "model"; parts: { text: string }[] }[]) {
   const model = ai.models.generateContent({
