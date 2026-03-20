@@ -1,6 +1,6 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: "AIzaSyBIapH-YpJiCCMUovtNcrWblFiFrrVoy5U"});
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY});
 
 export async function getChatResponse(message: string, history: { role: "user" | "model"; parts: { text: string }[] }[]) {
   const model = ai.models.generateContent({
@@ -26,7 +26,7 @@ export async function getChatResponse(message: string, history: { role: "user" |
 
 export async function getDiaryFeedback(content: string) {
   const model = ai.models.generateContent({
-    model: "gemini-3-flash-preview",
+    model: "gemini-2.5-flash",
     contents: [
       {
         role: "user",
@@ -48,7 +48,7 @@ export async function getDiaryFeedback(content: string) {
 
 export async function getDailySloka() {
   const model = ai.models.generateContent({
-    model: "gemini-3-flash-preview",
+    model: "gemini-2.5-flash",
     contents: [
       {
         role: "user",
@@ -77,7 +77,7 @@ export async function getDailySloka() {
 
 export async function getFlashcards() {
   const model = ai.models.generateContent({
-    model: "gemini-3-flash-preview",
+    model: "gemini-2.5-flash",
     contents: [
       {
         role: "user",
@@ -107,7 +107,7 @@ export async function getFlashcards() {
 
 export async function getAudioBookContent(topic: string) {
   const model = ai.models.generateContent({
-    model: "gemini-3-flash-preview",
+    model: "gemini-2.5-flash",
     contents: [
       {
         role: "user",
@@ -129,7 +129,7 @@ export async function getAudioBookContent(topic: string) {
 
 export async function generateSpeech(text: string) {
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash-preview-tts",
+    model: "gemini-2.5-flash",
     contents: [{ parts: [{ text: `Read this in a calm, deep male voice: ${text}` }] }],
     config: {
       responseModalities: ["AUDIO"],
