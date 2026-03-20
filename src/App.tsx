@@ -23,29 +23,35 @@ export default function App() {
   const [dailySloka, setDailySloka] = useState<Sloka | null>(null);
   const [activeFeature, setActiveFeature] = useState<'flashcards' | 'diary' | 'meditation' | 'audiobooks' | null>(null);
   const [streaks, setStreaks] = useState({ cards: 0, med: 0 });
-
+// 1. Fetch the Sloka ONLY ONCE when the app first loads
   useEffect(() => {
     const fetchSloka = async () => {
       try {
         const data = await getDailySloka();
         setDailySloka(data);
       } catch (e) {
-        console.error(e);
+        console.error("Sloka fetch error:", e);
       }
     };
     fetchSloka();
+  }, []); // Empty brackets = "Run once and never again"
 
-    // Sync streaks
+  // 2. Sync streaks whenever the user switches features
+  useEffect(() => {
     const updateStreaks = () => {
       setStreaks({
         cards: parseInt(localStorage.getItem('flashcard_streak') || '0'),
         med: parseInt(localStorage.getItem('meditation_streak') || '0')
       });
     };
+
     updateStreaks();
     window.addEventListener('storage', updateStreaks);
-    return () => window.removeEventListener('storage', updateStreaks);
-  }, [activeFeature]);
+    
+    return () => {
+      window.removeEventListener('storage', updateStreaks);
+    };
+  }, [activeFeature]); // Runs every time activeFeature changes
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-blue-500/30">
